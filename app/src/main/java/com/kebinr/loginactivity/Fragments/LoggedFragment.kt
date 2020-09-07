@@ -8,15 +8,21 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kebinr.loginactivity.R
+import com.kebinr.loginactivity.Repositorios.api.DataAPi.Post
 import com.kebinr.loginactivity.viewmodel.LoginViewModel
+import com.kebinr.loginactivity.viewmodel.PostViewModel
+import kotlinx.android.synthetic.main.fragment_logged.view.*
 
-class LoggedFragment : Fragment() {
+class LoggedFragment : Fragment(), PostsAdapter.onListIteration {
     val loginViewModel: LoginViewModel by activityViewModels()
+    val postViewModel: PostViewModel by activityViewModels()
+    private val adapter = PostsAdapter(ArrayList(), this)
+    lateinit var posts : List<Post>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,6 +39,20 @@ class LoggedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = findNavController()
+
+        requireView().posts_recycler.adapter = adapter
+        requireView().posts_recycler.layoutManager = LinearLayoutManager(requireContext())
+
+        postViewModel.postsLiveData.observe(getViewLifecycleOwner(), Observer {
+            adapter.posts.clear()
+            adapter.posts.addAll(it)
+            adapter.notifyDataSetChanged()
+        })
+
+        view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
+            postViewModel.getPost()
+        }
+
         loginViewModel.getLogged().observe(viewLifecycleOwner, Observer { logged ->
             if (logged == false) {
                 navController.navigate(R.id.login)
@@ -56,5 +76,17 @@ class LoggedFragment : Fragment() {
         fun newInstance(param1: String, param2: String) =
             LoggedFragment().apply {
             }
+    }
+
+    override fun onListItemInteration(item: Post?) {
+        //escribe cuando interactuan con la vista del item
+        println("item sin accion (Seleccionado)")
+    }
+
+    override fun onListButtonInteraction(item: Post?) {
+        adapter.posts.remove(item)
+        val posicion =adapter.posts.indexOf(item)
+        postViewModel.deletePost(posicion, item!!)
+        adapter.notifyItemRemoved(posicion)
     }
 }
