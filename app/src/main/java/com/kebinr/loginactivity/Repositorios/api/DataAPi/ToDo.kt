@@ -1,6 +1,6 @@
 package com.kebinr.loginactivity.Repositorios.api.DataAPi
 
-data class Post (
+data class ToDo (
     var title: String = "",
-    var body: String = ""
+    var completed: Boolean
 )

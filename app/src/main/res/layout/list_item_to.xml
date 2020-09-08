@@ -17,6 +17,7 @@
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout
+            android:id="@+id/CartaColor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -29,13 +30,6 @@
                 android:textSize="20sp"
                 tools:text="Lorem Ipsum" />
 
-            <TextView
-                android:id="@+id/body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                tools:text="Lorem Ipsum Dolor sit amet consectetur adipiscing elit" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="360dp"
                 android:layout_height="55dp">
@@ -45,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
-                    android:text="Listo"
+                    android:text="Quitar"
                     card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintEnd_toEndOf="parent"
                     card_view:layout_constraintTop_toTopOf="parent"

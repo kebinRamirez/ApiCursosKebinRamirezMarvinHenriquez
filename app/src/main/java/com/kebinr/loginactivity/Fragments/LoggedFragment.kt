@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kebinr.loginactivity.R
-import com.kebinr.loginactivity.Repositorios.api.DataAPi.Post
+import com.kebinr.loginactivity.Repositorios.api.DataAPi.ToDo
 import com.kebinr.loginactivity.viewmodel.LoginViewModel
-import com.kebinr.loginactivity.viewmodel.PostViewModel
+import com.kebinr.loginactivity.viewmodel.ToDoViewModel
 import kotlinx.android.synthetic.main.fragment_logged.view.*
 
-class LoggedFragment : Fragment(), PostsAdapter.onListIteration {
+class LoggedFragment : Fragment(), ToDosAdapter.onListIteration {
     val loginViewModel: LoginViewModel by activityViewModels()
-    val postViewModel: PostViewModel by activityViewModels()
-    private val adapter = PostsAdapter(ArrayList(), this)
-    lateinit var posts : List<Post>
+    val toDoViewModel: ToDoViewModel by activityViewModels()
+    private val adapter = ToDosAdapter(ArrayList(), this)
+    lateinit var toDos : List<ToDo>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,14 +43,14 @@ class LoggedFragment : Fragment(), PostsAdapter.onListIteration {
         requireView().posts_recycler.adapter = adapter
         requireView().posts_recycler.layoutManager = LinearLayoutManager(requireContext())
 
-        postViewModel.postsLiveData.observe(getViewLifecycleOwner(), Observer {
-            adapter.posts.clear()
-            adapter.posts.addAll(it)
+        toDoViewModel.postsLiveData.observe(getViewLifecycleOwner(), Observer {
+            adapter.toDos.clear()
+            adapter.toDos.addAll(it)
             adapter.notifyDataSetChanged()
         })
 
         view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
-            postViewModel.getPost()
+            toDoViewModel.getToDo()
         }
 
         loginViewModel.getLogged().observe(viewLifecycleOwner, Observer { logged ->
@@ -78,15 +78,15 @@ class LoggedFragment : Fragment(), PostsAdapter.onListIteration {
             }
     }
 
-    override fun onListItemInteration(item: Post?) {
+    override fun onListItemInteration(item: ToDo?) {
         //escribe cuando interactuan con la vista del item
         println("item sin accion (Seleccionado)")
     }
 
-    override fun onListButtonInteraction(item: Post?) {
-        adapter.posts.remove(item)
-        val posicion =adapter.posts.indexOf(item)
-        postViewModel.deletePost(posicion, item!!)
+    override fun onListButtonInteraction(item: ToDo?) {
+        adapter.toDos.remove(item)
+        val posicion =adapter.toDos.indexOf(item)
+        toDoViewModel.deleteToDo(posicion, item!!)
         adapter.notifyItemRemoved(posicion)
     }
 }
