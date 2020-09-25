@@ -1,8 +1,12 @@
 package com.kebinr.loginactivity.Data
 
-data class User (val correo: String, val contraseña: String) {
-
-    override fun toString(): String {
-        return "$correo"+"$contraseña"
-    }
+data class User(
+    var email: String = "",
+    var password: String = "",
+    var username: String = "",
+    var name: String = "",
+    var token: String = "",
+    var type: String = ""
+) {
+    var error: String = ""
 }

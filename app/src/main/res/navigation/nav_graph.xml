@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_loggedFragment_to_login"
             app:destination="@id/login" />
+        <action
+            android:id="@+id/action_loggedFragment_to_students_List"
+            app:destination="@id/students_List" />
     </fragment>
     <fragment
         android:id="@+id/registroFragment"
@@ -35,4 +38,20 @@
             android:id="@+id/action_registroFragment_to_login"
             app:destination="@id/login" />
     </fragment>
+    <fragment
+        android:id="@+id/students_List"
+        android:name="com.kebinr.loginactivity.Fragments.Students_List"
+        android:label="Students_List" >
+        <action
+            android:id="@+id/action_students_List_to_viewProfessor"
+            app:destination="@id/viewProfessor" />
+        <action
+            android:id="@+id/action_students_List_self"
+            app:destination="@id/students_List" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewProfessor"
+        android:name="com.kebinr.loginactivity.Fragments.ViewProfessorStudent"
+        android:label="fragment_view_professor"
+        tools:layout="@layout/fragment_view_professor" />
 </navigation>

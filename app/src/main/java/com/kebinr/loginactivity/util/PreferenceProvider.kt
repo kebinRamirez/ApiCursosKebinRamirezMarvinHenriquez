@@ -16,5 +16,11 @@ class PreferenceProvider {
         fun getValue(): Boolean? {
             return preference.getBoolean("key",false)
         }
+        fun getUserInfo(): String?{
+            return preference.getString("user","-1;-1")
+        }
+        fun setUserInfo(value: String){
+            preference.edit().putString("user", value).apply()
+        }
     }
 }
